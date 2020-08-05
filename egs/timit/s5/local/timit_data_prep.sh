@@ -67,7 +67,8 @@ for x in train dev test; do
   # First, find the list of audio files (use only si & sx utterances).
   # Note: train & test sets are under different directories, but doing find on
   # both and grepping for the speakers will work correctly.
-  find $*/{$train_dir,$test_dir} -not \( -iname 'SA*' \) -iname '*.WAV' \
+#  find $*/{$train_dir,$test_dir} -not \( -iname 'SA*' \) -iname '*.WAV' \
+  find $*/{$train_dir,$test_dir} -iname '*.WAV' \
     | grep -f $tmpdir/${x}_spk > ${x}_sph.flist
 
   sed -e 's:.*/\(.*\)/\(.*\).\(WAV\|wav\)$:\1_\2:' ${x}_sph.flist \
@@ -80,7 +81,8 @@ for x in train dev test; do
   # Now, Convert the transcripts into our format (no normalization yet)
   # Get the transcripts: each line of the output contains an utterance
   # ID followed by the transcript.
-  find $*/{$train_dir,$test_dir} -not \( -iname 'SA*' \) -iname '*.PHN' \
+#  find $*/{$train_dir,$test_dir} -not \( -iname 'SA*' \) -iname '*.PHN' \
+  find $*/{$train_dir,$test_dir}  -iname '*.PHN' \
     | grep -f $tmpdir/${x}_spk > $tmpdir/${x}_phn.flist
   sed -e 's:.*/\(.*\)/\(.*\).\(PHN\|phn\)$:\1_\2:' $tmpdir/${x}_phn.flist \
     > $tmpdir/${x}_phn.uttids
